@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public int jumps, maxnumberOfJumps;
     public Transform groundCheck;
     float xinput;
-
+    Score scoremanager;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         jumps = maxnumberOfJumps;
+        scoremanager = FindObjectOfType<Score>();
     }
 
     // Update is called once per frame
@@ -62,5 +63,14 @@ public class PlayerMovement : MonoBehaviour
    public  void SuperJump()
     {
         rb.velocity = Vector2.up * playerJumpForce*1.25f;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coins")
+        {
+
+            Destroy(collision.gameObject);
+            scoremanager.DecrementScore();
+        }
     }
 }
